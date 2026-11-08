@@ -142,7 +142,7 @@ const villaScenes: S[] = [
   {
     id: 'a-v-6',
     noSheet: true,
-    chapter: '은행 전환',
+    chapter: '토큰 전환',
     kind: 'success',
     role: '하나은행',
     time: '2026.11.05 09:00',
@@ -173,11 +173,11 @@ const villaScenes: S[] = [
   {
     id: 'a-v-7',
     noSheet: true,
-    chapter: '금고 입금',
+    chapter: '지갑에 전송',
     kind: 'success',
     role: '미유올',
     time: '2026.11.05 09:00',
-    short: '건물 공용 지갑에 입금',
+    short: '건물 공용 지갑에 전송',
     headline: '정산 ID와 건물 몫을 빌라 금고 계약에 기록합니다.',
     actionLabel: '금고 기록',
     visual: { type: 'vault', label: '빌라 공용 금고' },
@@ -295,7 +295,7 @@ const aptScenes: S[] = [
   },
   {
     id: 'a-a-3',
-    chapter: '은행 전환',
+    chapter: '토큰 전환',
     kind: 'success',
     role: '하나은행',
     time: '2026.11.05 09:00',

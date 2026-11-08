@@ -36,7 +36,7 @@ type S = Scene<DemoBState, DemoBVisual>
 const scenes: S[] = [
   {
     id: 'b-2',
-    chapter: '건물 몫 잠금',
+    chapter: '선결제분 월별로 구분',
     kind: 'success',
     role: '하나은행 · 미유올',
     time: '2026.10.05 09:00',
@@ -74,11 +74,11 @@ const scenes: S[] = [
   },
   {
     id: 'b-3',
-    chapter: '11/5 10월분',
+    chapter: '10월 사용 완료',
     kind: 'success',
     role: '하나은행',
     time: '2026.11.05 09:05',
-    short: '10월 사용이 완료 되면',
+    short: '10월 사용이 완료되면',
     headline: '10월 예약 기간이 끝났으므로 10월 몫만 풀려 지급됩니다.',
     actionLabel: '지급일 실행',
     visual: { type: 'slots' },
@@ -105,7 +105,7 @@ const scenes: S[] = [
   {
     id: 'b-5',
     noSheet: true,
-    chapter: '11/25 해지',
+    chapter: '12월분 중도 해지',
     kind: 'unlock',
     role: '미유올',
     time: '2026.11.25 15:00',

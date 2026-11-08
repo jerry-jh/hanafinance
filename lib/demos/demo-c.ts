@@ -71,7 +71,7 @@ const scenes: S[] = [
   {
     id: 'c-2',
     noSheet: true,
-    chapter: '공유 데이터',
+    chapter: '공유 데이터 연결',
     kind: 'success',
     role: '미유올',
     time: '2026.11.04',
@@ -94,7 +94,7 @@ const scenes: S[] = [
   {
     id: 'c-3',
     noSheet: true,
-    chapter: '운영보전금',
+    chapter: '운영 보전금',
     kind: 'success',
     role: '구청 → 하나은행',
     time: '2026.11.05 10:00',
@@ -123,7 +123,7 @@ const scenes: S[] = [
   },
   {
     id: 'c-3h',
-    chapter: '공유 축소 · 보류',
+    chapter: '조건 미충족 시',
     kind: 'reject',
     role: '조건 미충족 시',
     time: '2026.12.05 10:00 (가정)',
@@ -152,7 +152,7 @@ const scenes: S[] = [
   },
   {
     id: 'c-4',
-    chapter: '이용률 비교',
+    chapter: '추가 인센티브',
     kind: 'pass',
     role: '미유올',
     time: '2026.11.05',
