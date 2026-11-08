@@ -5,7 +5,6 @@ import { useEffect, useEffectEvent, useRef, useState } from 'react'
 import { useDemoPlayer } from '@/hooks/useDemoPlayer'
 import { DEMOS } from '@/lib/demos'
 import { ConsoleCard } from './console-card'
-import { Records } from './records'
 import { SceneList } from './scene-list'
 
 export function DemoSection() {
@@ -108,9 +107,6 @@ export function DemoSection() {
           />
         </div>
 
-        <div className="mt-16">
-          <Records state={demo ? player.shownState : null} />
-        </div>
       </div>
     </section>
   )

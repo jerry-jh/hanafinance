@@ -3,11 +3,6 @@
 import { motion, useTransform } from 'framer-motion'
 import { useScrollTheme } from './scroll-theme'
 
-const LINKS = [
-  { href: '#demo', label: '시연' },
-  { href: '#records', label: '거래 기록' },
-]
-
 export function TopBar() {
   const { dark } = useScrollTheme()
   const bg = useTransform(dark, [0, 1], ['rgba(255,255,255,0.92)', 'rgba(25,31,40,0.92)'])
@@ -32,18 +27,6 @@ export function TopBar() {
             모의 시연
           </motion.span>
         </a>
-        <nav aria-label="주요 메뉴" className="flex items-center gap-1">
-          {LINKS.map((l) => (
-            <motion.a
-              key={l.href}
-              href={l.href}
-              style={{ color: sub }}
-              className="shrink-0 rounded-lg px-3 py-2 text-[15px] font-medium hover:opacity-70"
-            >
-              {l.label}
-            </motion.a>
-          ))}
-        </nav>
       </div>
     </motion.header>
   )
