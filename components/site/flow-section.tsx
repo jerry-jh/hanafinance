@@ -101,7 +101,7 @@ export function FlowSection() {
             주민 가결 + 미유올 정산 확정 + 하나은행 전환 = 지급
           </p>
           <p className="mx-auto mt-3 max-w-[640px] text-center text-[14px] leading-relaxed text-muted">
-            예약·결제·PG 수수료·60:40 계산은 블록체인 밖 기존 정산시스템이 처리하고, 확정된 건물 몫과 정산 ID만
+            예약·결제·PG 수수료·60:40 계산은 오프체인 기존 정산시스템이 처리하고, 확정된 건물 몫과 정산 ID만
             계약에 제출해요.
           </p>
         </Disclosure>

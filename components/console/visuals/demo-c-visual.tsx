@@ -65,7 +65,11 @@ function Options({ chosen }: { chosen: boolean }) {
           chosen ? 'border-brand' : 'border-line'
         }`}
       >
-        <span className="text-[16px] font-bold text-ink">월별 · 운영보전금</span>
+        <span
+          className={`font-bold transition-all duration-300 ${chosen ? 'text-[24px] text-brand-text' : 'text-[16px] text-ink'}`}
+        >
+          월별 · 운영보전금
+        </span>
         <span className="text-[13px] leading-snug text-muted">면당 월 20,000원 · 의무 2년</span>
         {chosen && (
           <span className="mt-1 inline-flex items-center gap-1 self-start rounded-full bg-brand-soft px-2.5 py-0.5 text-[13px] font-semibold text-brand-text">
@@ -106,8 +110,8 @@ function SubsidyCard({ state, fresh }: { state: DemoCState; fresh: boolean }) {
   const paid = state.subsidyPaid > 0
   return (
     <ProgramCard title="가. 운영보전금" tag="현행 제도">
-      <Row label="조건">그달 매일 등록 면수 개방</Row>
-      <Row label="개방 데이터">
+      <Row label="조건">등록 면수 공유</Row>
+      <Row label="공유 데이터">
         <div className="flex flex-col gap-1.5">
           <div className="grid grid-cols-[repeat(31,minmax(0,1fr))] gap-[2px]" aria-hidden="true">
             {Array.from({ length: DISTRICT.days }, (_, i) => (
@@ -123,10 +127,10 @@ function SubsidyCard({ state, fresh }: { state: DemoCState; fresh: boolean }) {
           {complete ? (
             <span className="inline-flex items-center gap-1 font-semibold text-brand-text">
               <Check aria-hidden="true" className="size-3.5" strokeWidth={3} />
-              10월 개방 유지 확인 · 5면
+              10월 공유 유지 확인 · 5면
             </span>
           ) : (
-            filled === 0 && <span className="text-muted">제출 전</span>
+            filled === 0 && <span className="text-muted">연결 전</span>
           )}
         </div>
       </Row>
@@ -219,7 +223,7 @@ function Gauge({ submitted, fresh }: { submitted: boolean; fresh: boolean }) {
       </div>
       <div className="flex items-center justify-between text-[13px]">
         <span className="text-muted tabular-nums">
-          {submitted ? '판매 4면 ÷ 개방 5면 = 80%' : '통계 제출 전'}
+          {submitted ? '판매 4면 ÷ 공유 5면 = 80%' : '통계 제출 전'}
         </span>
         {ok ? (
           <span className="inline-flex items-center gap-1 font-semibold text-brand-text">
@@ -236,7 +240,7 @@ function Gauge({ submitted, fresh }: { submitted: boolean; fresh: boolean }) {
 
 function ApprovalChain({ o, g, b }: { o: boolean; g: boolean; b: boolean }) {
   const nodes = [
-    { key: 'O', who: '미유올', what: '데이터 제출', done: o },
+    { key: 'O', who: '미유올', what: '데이터 연결', done: o },
     { key: 'G', who: '구청', what: '승인', done: g },
     { key: 'B', who: '하나은행', what: '실행', done: b },
   ]
@@ -251,7 +255,7 @@ function ApprovalChain({ o, g, b }: { o: boolean; g: boolean; b: boolean }) {
           >
             {n.done && <Check aria-hidden="true" className="size-3.5" strokeWidth={3} />}
             <span className="font-bold">
-              {n.key} {n.who}
+              {n.who}
             </span>
             <span>{n.what}</span>
           </div>
@@ -275,8 +279,8 @@ function HoldCard({ done }: { done: boolean }) {
     { label: '11월', spaces: DISTRICT.heldSpaces, ok: false },
   ]
   return (
-    <ProgramCard title="가. 운영보전금 · 개방 면수 변화" tag="현행 제도">
-      <Row label="조건">그달 매일 5면 이상 개방</Row>
+    <ProgramCard title="가. 운영보전금 · 공유 면수 변화" tag="현행 제도">
+      <Row label="조건">5면 이상 공유</Row>
       {months.map((m) => {
         const show = m.ok || done
         return (
@@ -292,7 +296,7 @@ function HoldCard({ done }: { done: boolean }) {
                   />
                 ))}
               </div>
-              <span className="text-[13px] text-muted tabular-nums">개방 {m.spaces}면</span>
+              <span className="text-[13px] text-muted tabular-nums">공유 {m.spaces}면</span>
               {m.ok ? (
                 <span className="inline-flex items-center gap-1 font-semibold text-brand-text">
                   <Check aria-hidden="true" className="size-3.5" strokeWidth={3} />
@@ -323,17 +327,17 @@ function Compare({ submitted, fresh }: { submitted: boolean; fresh: boolean }) {
   const rows = [
     {
       name: '가상 빌라 1동',
-      calc: `판매 ${DISTRICT.soldSpaces}면 ÷ 개방 ${DISTRICT.openSpaces}면`,
+      calc: `판매 ${DISTRICT.soldSpaces}면 ÷ 공유 ${DISTRICT.openSpaces}면`,
       pct: 80,
       ok: true,
       result: `대상 · 판매 ${DISTRICT.soldSpaces}면 × 3,000원 = ${num(DISTRICT.incentive)}원`,
     },
     {
       name: '가상 아파트 1동',
-      calc: `판매 ${DISTRICT.aptSoldSpaces}면 ÷ 개방 ${DISTRICT.aptOpenSpaces}면`,
+      calc: `판매 ${DISTRICT.aptSoldSpaces}면 ÷ 공유 ${DISTRICT.aptOpenSpaces}면`,
       pct: 60,
       ok: false,
-      result: '기준 미달 · 0원',
+      result: '조건 미달 · 0원',
     },
   ]
   return (
@@ -409,7 +413,6 @@ function Rejects({ done }: { done: boolean }) {
             <X aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-danger" strokeWidth={3} />
             <p className="leading-snug">
               <span className="font-semibold text-danger-text">거부</span> · {r.text}
-              <span className="ml-2 font-mono text-[12px] text-muted">{r.code}</span>
             </p>
           </div>
         ) : (
@@ -481,7 +484,7 @@ function Buckets() {
             <div className="min-w-0 flex-1">
               <p className="text-[16px] font-semibold text-ink">{r.label}</p>
               <p className="text-[13px] text-muted">
-                <span className="font-mono">{r.code}</span> · {r.sub}
+                {r.sub}
               </p>
             </div>
             <span className="text-[17px] font-bold text-ink tabular-nums">{num(r.amount)}원</span>

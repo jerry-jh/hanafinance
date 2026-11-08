@@ -21,7 +21,15 @@ export function DemoAVisualView({ visual, prev, next, phase }: Props) {
   const state = done ? next : prev
   switch (visual.type) {
     case 'vote':
-      return <VoteVisual votes={state.votes} prevVotes={prev.votes} animate={done} threshold={visual.threshold} />
+      return (
+        <VoteVisual
+          votes={state.votes}
+          prevVotes={prev.votes}
+          animate={done}
+          threshold={visual.threshold}
+          attempts={visual.attempts ? (done ? 'rejected' : 'pending') : undefined}
+        />
+      )
     case 'calc':
       return <CalcStrip visual={visual} />
     case 'bank':
@@ -46,11 +54,13 @@ function VoteVisual({
   prevVotes,
   animate,
   threshold,
+  attempts,
 }: {
   votes: Record<string, Vote>
   prevVotes: Record<string, Vote>
   animate: boolean
   threshold: number
+  attempts?: AttemptState
 }) {
   const reduced = useReducedMotion()
   const isFreshVote = animate && VOTE_ORDER.every((u) => prevVotes[u] === null) && VOTE_ORDER.some((u) => votes[u] !== null)
@@ -83,10 +93,14 @@ function VoteVisual({
   const total = UNITS.length
   const yes = UNITS.filter((u) => visibleVote(u) === 'yes').length
   const met = yes >= threshold
+  const votingDone = revealed >= VOTE_ORDER.length && VOTE_ORDER.some((u) => votes[u] !== null)
 
   return (
     <div className="flex flex-col gap-4">
-      <ul className="grid grid-cols-4 gap-2 sm:grid-cols-8" aria-label="세대별 투표 현황">
+      <ul
+        className={`grid grid-cols-4 gap-2 sm:grid-cols-8 ${attempts ? 'mt-7' : ''}`}
+        aria-label="세대별 투표 현황"
+      >
         {UNITS.map((u) => {
           const v = visibleVote(u)
           const label = v === 'yes' ? '찬성' : v === 'no' ? '반대' : '미투표'
@@ -96,17 +110,19 @@ function VoteVisual({
               aria-label={`${u}호 ${label}`}
               animate={{ scale: v ? [0.94, 1] : 1 }}
               transition={{ duration: 0.2 }}
-              className={`flex h-11 items-center justify-center gap-1 rounded-xl text-[14px] font-bold tabular-nums transition-colors duration-300 ${
+              className={`relative flex h-11 items-center justify-center gap-1 rounded-xl text-[14px] font-bold tabular-nums transition-colors duration-300 ${
                 v === 'yes'
                   ? 'bg-brand text-white'
                   : v === 'no'
-                    ? 'border border-danger bg-white text-danger-text'
+                    ? 'bg-line text-ink-2'
                     : 'bg-soft text-muted-2'
               }`}
             >
               {u}
               {v === 'yes' && <Check aria-hidden="true" className="size-3" strokeWidth={3} />}
-              {v === 'no' && <X aria-hidden="true" className="size-3" strokeWidth={3} />}
+              {v === 'no' && <span className="text-[12px] font-semibold">반대</span>}
+              {v === null && votingDone && <span className="text-[12px] font-semibold">미투표</span>}
+              {attempts && u === DUP_UNIT && <DupTag rejected={attempts === 'rejected'} />}
             </motion.li>
           )
         })}
@@ -139,6 +155,7 @@ function VoteVisual({
           />
         </div>
       </div>
+      {attempts && <AttemptCards state={attempts} />}
     </div>
   )
 }
@@ -147,7 +164,7 @@ function CalcStrip({ visual }: { visual: Extract<DemoAVisual, { type: 'calc' }> 
   return (
     <div className="relative rounded-2xl border border-dashed border-disabled px-4 pt-6 pb-4">
       <span className="absolute -top-2.5 left-4 rounded-full bg-white px-2 text-[13px] font-semibold text-muted">
-        블록체인 밖
+        오프체인
       </span>
       <div className="flex flex-wrap items-center gap-2 text-[14px]">
         {visual.steps.map((s, i) => (
@@ -204,7 +221,7 @@ function BankVisual({ label, deposited, minted }: { label: string; deposited: nu
           <span className="text-[14px] text-muted">TestKRW 전환</span>
           <span className="text-2xl font-bold text-ink">
             <CountUp value={minted} />
-            <span className="ml-0.5 text-base font-medium text-muted">원</span>
+            <span className="ml-0.5 text-base font-medium text-muted">TestKRW</span>
           </span>
         </div>
       </div>
@@ -218,7 +235,7 @@ function VaultNumber({ label, value, unchanged }: { label: string; value: number
       <span className="text-[14px] text-muted">{label}</span>
       <span className="mt-1 text-[56px] leading-none font-extrabold tracking-tight text-ink">
         <CountUp value={value} />
-        <span className="ml-1 text-2xl font-semibold text-muted">원</span>
+        <span className="ml-1 text-2xl font-semibold text-muted">TestKRW</span>
       </span>
       <span className="mt-2 text-[13px] text-muted">{unchanged ? '변동 없음 · TestKRW' : 'TestKRW(실제 예금 아님)'}</span>
     </div>
@@ -353,5 +370,51 @@ function PerHousehold({ label, total, households }: { label: string; total: numb
         {num(total)}원 ÷ {households}세대
       </span>
     </div>
+  )
+}
+
+type AttemptState = 'pending' | 'rejected'
+const DUP_UNIT = '302'
+
+function DupTag({ rejected }: { rejected: boolean }) {
+  return (
+    <span className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-danger px-2 py-0.5 text-[11px] font-bold text-white">
+      {rejected ? '중복 투표 거부' : '중복 투표 시도'}
+    </span>
+  )
+}
+
+function AttemptCards({ state }: { state: AttemptState }) {
+  const rejected = state === 'rejected'
+  const items = [
+    { who: '미등록 계정', sub: '승인 주민 목록에 없음', reason: '승인 주민이 아니라서 거부' },
+    { who: '302호 (이미 찬성)', sub: '한 번 더 투표하려고 함', reason: '이미 투표해서 거부' },
+  ]
+  return (
+    <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2" aria-label="거부될 투표 시도">
+      {items.map((it) => (
+        <li
+          key={it.who}
+          className={`flex flex-col gap-1 rounded-2xl border-2 px-4 py-3 transition-colors duration-300 ${
+            rejected ? 'border-danger bg-danger-soft' : 'border-dashed border-danger bg-white'
+          }`}
+        >
+          <span className="text-[13px] text-muted">투표 시도</span>
+          <span className="text-[18px] font-extrabold text-ink">{it.who}</span>
+          {rejected ? (
+            <motion.span
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-1 text-[15px] font-bold text-danger-text"
+            >
+              <X aria-hidden="true" className="size-4" strokeWidth={3} />
+              {it.reason}
+            </motion.span>
+          ) : (
+            <span className="text-[14px] text-muted">{it.sub}</span>
+          )}
+        </li>
+      ))}
+    </ul>
   )
 }

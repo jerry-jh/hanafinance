@@ -17,7 +17,7 @@ export const TIMING = {
 }
 
 export function hasSheet(scene: Scene) {
-  return scene.kind !== 'info'
+  return scene.kind !== 'info' && !scene.noSheet
 }
 
 export function estimateSceneMs(scene: Scene) {
@@ -34,7 +34,7 @@ export function useDemoPlayer(demo: Demo | undefined, caseId: string, onComplete
   const scenes = useMemo(() => (demo ? demo.scenes(caseId) : []), [demo, caseId])
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>('ready')
-  const [mode, setMode] = useState<PlayMode>('auto')
+  const [mode, setMode] = useState<PlayMode>('manual')
   const [playing, setPlaying] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [sheetStep, setSheetStep] = useState(0)

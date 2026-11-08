@@ -24,6 +24,7 @@
   --color-danger: #d92d20;
   --color-danger-text: #b42318;
   --color-danger-soft: #fdedec;
+  --color-point: #1b64da;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

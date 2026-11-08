@@ -68,8 +68,8 @@ export function ConditionSheet({ open, scene, checks, step, resolved, onConfirm 
                       {c.label}
                     </span>
                     {!pending && (
-                      <span className="text-right font-mono text-[13px] text-muted">
-                        {c.ok === null ? '확인 안 함' : c.code ?? (c.ok ? '통과' : '실패')}
+                      <span className="text-right text-[13px] text-muted">
+                        {c.ok === null ? '확인 안 함' : c.ok ? '통과' : '실패'}
                       </span>
                     )}
                     {pending && <span className="text-[13px] text-muted">확인 중</span>}

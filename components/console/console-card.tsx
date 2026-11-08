@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ChevronDown, MousePointer2, Pause, Play } from 'lucide-react'
+import { Check, ChevronDown, Import, MousePointer2, Pause, Play } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { DemoPlayer } from '@/hooks/useDemoPlayer'
 import type { Demo } from '@/lib/demos/types'
@@ -24,11 +24,28 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
   useEffect(() => () => {
     if (leaveTimer.current) clearTimeout(leaveTimer.current)
   }, [])
+  // revealDelayMs가 있는 단계는 화면 애니메이션이 끝난 뒤에 결과 줄·반짝임을 보여줘요
+  const revealKey = scene ? `${caseId}-${scene.id}` : ''
+  const revealDelay = scene?.revealDelayMs ?? 0
+  const [revealedKey, setRevealedKey] = useState('')
+  useEffect(() => {
+    if (phase !== 'done' || !revealDelay) {
+      setRevealedKey('')
+      return
+    }
+    const t = setTimeout(() => setRevealedKey(revealKey), revealDelay)
+    return () => clearTimeout(t)
+  }, [phase, revealKey, revealDelay])
   if (!scene || !player.prevState || !player.nextState) return null
 
   const done = phase === 'done'
+  // 미유올은 외부 정산 데이터를 끌어오는 역할이라 배지 색과 아이콘을 따로 줘요
+  const isMiyuol = scene.role.includes('미유올')
+  // 하나은행 배지는 아래 초록 버튼과 같은 색
+  const isHana = scene.role.startsWith('하나은행')
+  const revealed = done && (!revealDelay || revealedKey === revealKey)
   const progress = (index + (done ? 1 : 0)) / scenes.length
-  const primaryLabel = done ? (isLast ? '처음부터 다시' : '다음 단계') : scene.actionLabel
+  const primaryLabel = done ? '다음 단계' : scene.actionLabel
   const showCursor = mode === 'auto' && playing && phase === 'ready'
   const paused = mode === 'auto' && !playing
 
@@ -69,7 +86,7 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
       </div>
 
       <AnimatePresence>
-        {done && scene.flash && (
+        {revealed && scene.flash && (
           <motion.div
             key={`flash-${scene.id}`}
             aria-hidden="true"
@@ -80,6 +97,27 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
           />
         )}
       </AnimatePresence>
+
+      {revealed && scene.stamp && (
+        <motion.div
+          key={`stamp-${scene.id}`}
+          role="status"
+          className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 1.6, times: [0, 0.15, 0.75, 1] }}
+        >
+          <motion.span
+            initial={reduced ? false : { scale: 1.6, rotate: -8 }}
+            animate={{ scale: 1, rotate: -8 }}
+            transition={{ type: 'spring', stiffness: 380, damping: 16 }}
+            className="inline-flex items-center gap-2 rounded-2xl border-4 border-brand bg-white/90 px-6 py-3 text-[30px] font-extrabold tracking-tight text-brand-text shadow-[0_8px_24px_rgba(18,161,80,0.25)]"
+          >
+            <Check aria-hidden="true" className="size-8" strokeWidth={3.5} />
+            {scene.stamp}
+          </motion.span>
+        </motion.div>
+      )}
 
       <div className="relative z-10 flex flex-1 flex-col px-6 pt-5 pb-5 sm:px-7">
         <div className="flex min-h-[36px] items-center justify-between gap-3">
@@ -102,7 +140,13 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
           ) : (
             <span />
           )}
-          <span className="inline-flex min-w-0 items-center rounded-full bg-ink px-4 py-1.5 text-white">
+          <span
+            className={`inline-flex min-w-0 items-center gap-1.5 rounded-full px-4 py-1.5 text-white ${
+              scene.role === '조건 미충족 시' ? 'bg-danger' : isMiyuol ? '' : isHana ? 'bg-brand' : 'bg-ink'
+            }`}
+            style={isMiyuol ? { background: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', color: '#0369a1' } : undefined}
+          >
+            {isMiyuol && <Import aria-hidden="true" className="size-4 shrink-0" strokeWidth={2.5} />}
             <span className="truncate text-[15px] font-bold">{scene.role}</span>
           </span>
         </div>
@@ -117,11 +161,13 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
               transition={{ duration: 0.2 }}
               className="flex flex-col gap-5 pt-3"
             >
-              <h3 className="truncate text-[26px] leading-tight font-extrabold tracking-tight text-ink sm:text-[30px]">
+              <h3
+                className={`${scene.short.includes('\n') ? 'whitespace-pre-line' : 'truncate'} text-[26px] leading-tight font-extrabold tracking-tight text-ink sm:text-[30px]`}
+              >
                 {scene.short}
               </h3>
               <SceneVisual demo={demo} scene={scene} prev={player.prevState} next={player.nextState} phase={phase} />
-              {done && scene.results && scene.results.length > 0 && (
+              {revealed && scene.results && scene.results.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -137,7 +183,7 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
           </AnimatePresence>
         </AutoHeight>
 
-        <div className="relative mt-auto pt-5">
+        <div className={`relative mt-auto pt-5 ${done && isLast ? 'invisible' : ''}`} aria-hidden={done && isLast}>
           <button
             type="button"
             onClick={player.primary}
@@ -150,16 +196,6 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
           </button>
           {showCursor && <FakeCursor key={`cursor-${scene.id}`} />}
         </div>
-
-        {scene.rejectVariant && phase !== 'running' && (
-          <button
-            type="button"
-            onClick={player.runVariant}
-            className="mx-auto mt-2 rounded-lg px-3 py-2 text-[15px] text-muted hover:bg-soft hover:text-ink-2"
-          >
-            다른 상황 시험해보기
-          </button>
-        )}
 
         <div className="mt-4 flex h-9 items-center justify-end">
           <span className="text-[12px] text-[#B0B8C1] tabular-nums">

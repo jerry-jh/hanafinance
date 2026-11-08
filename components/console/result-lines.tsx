@@ -4,10 +4,18 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Check, Info, X } from 'lucide-react'
 import type { SceneResult } from '@/lib/demos/types'
 
-export function PayChip({ label, size = 'md' }: { label: string; size?: 'md' | 'lg' }) {
+export function PayChip({
+  label,
+  size = 'md',
+  tone = 'brand',
+}: {
+  label: string
+  size?: 'md' | 'lg'
+  tone?: 'brand' | 'danger'
+}) {
   return (
     <span
-      className={`inline-flex items-center rounded-lg bg-brand font-bold text-white ${
+      className={`inline-flex items-center rounded-lg ${tone === 'danger' ? 'bg-danger' : 'bg-brand'} font-bold text-white ${
         size === 'lg' ? 'px-3 py-1 text-xl' : 'px-2 py-0.5 text-[14px]'
       }`}
     >
@@ -24,9 +32,6 @@ export function ResultLine({ result, animateChip = false }: { result: SceneResul
         <p className="min-w-0 flex-1 leading-snug">
           <span className="font-semibold text-danger-text">{result.text.split(' · ')[0]}</span>
           {result.text.includes(' · ') && <span> · {result.text.split(' · ').slice(1).join(' · ')}</span>}
-          {result.code && (
-            <span className="ml-2 font-mono text-[13px] text-muted">{result.code} · status 0</span>
-          )}
         </p>
       </div>
     )

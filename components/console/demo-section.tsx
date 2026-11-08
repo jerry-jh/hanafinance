@@ -1,6 +1,6 @@
 'use client'
 
-import { Hand, Play } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { useEffect, useEffectEvent, useRef, useState } from 'react'
 import { useDemoPlayer } from '@/hooks/useDemoPlayer'
 import { DEMOS } from '@/lib/demos'
@@ -20,6 +20,12 @@ export function DemoSection() {
   }
   const player = useDemoPlayer(demo, caseId, playNextDemo)
   const sectionRef = useRef<HTMLElement>(null)
+  // 큰 제목: 현재 단계까지 중 가장 최근에 heading을 지정한 단계의 문구, 없으면 시나리오 기본 제목
+  const heading =
+    player.scenes
+      .slice(0, player.index + 1)
+      .reverse()
+      .find((s) => s.heading)?.heading ?? entry.heading
 
   const selectDemo = (l: string) => {
     if (l === letter) player.reset()
@@ -31,13 +37,7 @@ export function DemoSection() {
     if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) return
     if (target?.closest('[role="dialog"][aria-labelledby="record-sheet-title"]')) return
     if (e.metaKey || e.ctrlKey || e.altKey) return
-    if (e.key === ' ') {
-      if (target?.tagName === 'BUTTON' || target?.tagName === 'A') return
-      const rect = sectionRef.current?.getBoundingClientRect()
-      if (!rect || rect.bottom < window.innerHeight / 2 || rect.top > window.innerHeight / 2) return
-      e.preventDefault()
-      player.togglePlay()
-    } else if (e.key === 'ArrowRight') player.next()
+    if (e.key === 'ArrowRight') player.next()
     else if (e.key === 'ArrowLeft') player.prev()
     else if (e.key === 'r' || e.key === 'R') player.reset()
     else if (['1', '2', '3', '4'].includes(e.key)) selectDemo(DEMOS[Number(e.key) - 1].letter)
@@ -49,29 +49,11 @@ export function DemoSection() {
     return () => window.removeEventListener('keydown', handler)
   }, [])
 
-  const consoleRef = useRef<HTMLDivElement>(null)
-  const startAutoplay = useEffectEvent(() => player.play())
-  useEffect(() => {
-    const el = consoleRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          startAutoplay()
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.4 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <section ref={sectionRef} id="demo" aria-label="시연" className="px-5 pt-0 pb-28 sm:pb-32">
       <div className="mx-auto max-w-[1180px]">
-        <div className="mb-8 flex flex-wrap justify-center gap-2" role="tablist" aria-label="시연 선택">
-          {DEMOS.map((d) => {
+        <div className="mb-5 flex flex-wrap justify-center gap-2" role="tablist" aria-label="시연 선택">
+          {DEMOS.map((d, i) => {
             const selected = d.letter === letter
             return (
               <button
@@ -80,40 +62,40 @@ export function DemoSection() {
                 role="tab"
                 aria-selected={selected}
                 onClick={() => selectDemo(d.letter)}
-                className={`rounded-full px-4 py-2.5 text-[14px] font-semibold transition-colors sm:text-[15px] ${
+                className={`rounded-full px-4 py-2 text-[14px] font-semibold transition-colors sm:text-[15px] ${
                   selected ? 'bg-ink font-bold text-white' : 'bg-soft text-sub hover:bg-line'
                 }`}
               >
-                <span className={selected ? 'mr-1.5 text-white/70' : 'mr-1.5 text-muted'}>{d.letter}</span>
-                {d.heading}
+                <span className={selected ? 'mr-1.5 text-white/70' : 'mr-1.5 text-muted'}>{i + 1}</span>
+                {d.heading.replace(/[[\]]/g, '')}
               </button>
             )
           })}
         </div>
-        <div ref={consoleRef} className="grid grid-cols-1 gap-8 lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-10">
+        <motion.h2
+          key={`${entry.letter}-${heading}`}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mb-7 text-center text-[26px] leading-tight font-extrabold tracking-tight text-balance text-ink sm:text-[32px] lg:text-[36px]"
+        >
+          {heading.split(/(\[[^\]]+\])/).map((part, i) =>
+            part.startsWith('[') ? (
+              <span key={i} className="text-point">
+                {part.slice(1, -1)}
+              </span>
+            ) : (
+              part
+            ),
+          )}
+        </motion.h2>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-8">
           <div className="flex flex-col">
             {demo ? (
               <>
                 <div>
                   <SceneList player={player} />
                 </div>
-                <button
-                  type="button"
-                  onClick={() => player.switchMode(player.mode === 'auto' ? 'manual' : 'auto')}
-                  className="mt-5 inline-flex items-center gap-1.5 self-start text-[15px] font-semibold text-ink-2 underline underline-offset-4 hover:text-ink"
-                >
-                  {player.mode === 'auto' ? (
-                    <>
-                      <Hand aria-hidden="true" className="size-4" />
-                      직접 해보기
-                    </>
-                  ) : (
-                    <>
-                      <Play aria-hidden="true" className="size-4" fill="currentColor" />
-                      자동 재생
-                    </>
-                  )}
-                </button>
               </>
             ) : null}
           </div>

@@ -40,21 +40,37 @@ export function DemoBVisualView({ visual, prev, next, phase }: Props) {
             <span className="ml-1 text-lg font-semibold text-muted">원</span>
           </span>
         </div>
-        <div className="flex flex-col rounded-2xl bg-soft px-4 py-3">
-          <span className="flex items-center justify-between gap-2 text-[14px] text-muted">
-            청소 업체 입금
-            <PayChip label="[청소비 지급]" />
-          </span>
-          <span
-            className={`text-[34px] leading-tight font-extrabold tracking-tight ${
-              state.cleaner > 0 ? 'text-brand-text' : 'text-ink'
-            }`}
-          >
-            {state.cleaner > 0 ? '+' : ''}
-            <CountUp value={state.cleaner} />
-            <span className="ml-1 text-lg font-semibold text-muted">원</span>
-          </span>
-        </div>
+        {visual.refund !== undefined ? (
+          <div className="flex flex-col rounded-2xl bg-soft px-4 py-3">
+            <span className="flex items-center justify-between gap-2 text-[14px] text-muted">
+              예약자 환불
+              <PayChip label="예약자에게 환불금 지급" tone="danger" />
+            </span>
+            <span
+              className={`text-[34px] leading-tight font-extrabold tracking-tight ${done ? 'text-danger-text' : 'text-ink'}`}
+            >
+              {done ? '+' : ''}
+              <CountUp value={done ? visual.refund : 0} />
+              <span className="ml-1 text-lg font-semibold text-muted">원</span>
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-col rounded-2xl bg-soft px-4 py-3">
+            <span className="flex items-center justify-between gap-2 text-[14px] text-muted">
+              청소 업체 입금
+              <PayChip label="청소비 지급" />
+            </span>
+            <span
+              className={`text-[34px] leading-tight font-extrabold tracking-tight ${
+                state.cleaner > 0 ? 'text-brand-text' : 'text-ink'
+              }`}
+            >
+              {state.cleaner > 0 ? '+' : ''}
+              <CountUp value={state.cleaner} />
+              <span className="ml-1 text-lg font-semibold text-muted">원</span>
+            </span>
+          </div>
+        )}
       </div>
       {visual.note && <p className="text-[13px] leading-relaxed text-muted">{visual.note}</p>}
     </div>
@@ -70,7 +86,7 @@ function PrepaidStrip() {
   return (
     <div className="relative rounded-2xl border border-dashed border-disabled px-4 pt-6 pb-4">
       <span className="absolute -top-2.5 left-4 rounded-full bg-white px-2 text-[13px] font-semibold text-muted">
-        블록체인 밖
+        오프체인
       </span>
       <div className="flex flex-wrap items-center gap-2 text-[14px]">
         {steps.map((s) => (
@@ -159,7 +175,7 @@ function SlotCard({
     status === 'paid'
       ? 'border-2 border-brand bg-white'
       : status === 'unlocked'
-        ? 'border-2 border-ink bg-white'
+        ? 'border-2 border-danger bg-white'
         : status === 'locked'
           ? 'border border-line bg-soft-2'
           : 'border border-dashed border-disabled bg-white'
@@ -223,7 +239,7 @@ function StatusChip({ status }: { status: SlotStatus }) {
   }
   if (status === 'unlocked') {
     return (
-      <span className="inline-flex items-center gap-1 text-[13px] leading-snug font-semibold text-ink">
+      <span className="inline-flex items-center gap-1 text-[13px] leading-snug font-semibold text-danger-text">
         <RotateCcw aria-hidden="true" className="size-3.5 shrink-0" />
         잠금 해제 · 환불 재원
       </span>

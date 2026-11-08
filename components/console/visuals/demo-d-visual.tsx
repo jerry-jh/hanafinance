@@ -101,7 +101,6 @@ function Subscribe({
                   <span className="font-semibold">주민 D 6,000,000</span> ·{' '}
                   <span className="font-semibold text-danger-text">거부</span> · 1인 한도(500만 원) 초과 — 대금·권리토큰
                   잔액 모두 변동 없음
-                  <span className="ml-2 font-mono text-[12px] text-muted">PerPersonCapExceeded · status 0</span>
                 </p>
               </div>
             ) : (
@@ -252,7 +251,6 @@ function Transfer({ e, f }: { e: boolean; f: boolean }) {
           <p className="leading-snug">
             <span className="font-bold">A → F</span> · 500,000 · <span className="font-semibold text-danger-text">거부</span> ·
             미확인 지갑 — 기준일 명부 유지
-            <span className="ml-2 font-mono text-[12px] text-muted">NotEligible · status 0</span>
           </p>
         </div>
       ) : (

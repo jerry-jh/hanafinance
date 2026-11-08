@@ -30,9 +30,6 @@ export function Records({ state }: { state: BaseState | null }) {
                 <RecordIcon kind={r.kind} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[16px] font-semibold text-ink">{r.title}</p>
-                  <p className="truncate font-mono text-[13px] text-muted">
-                    {r.kind === 'reject' ? `${r.code} · status 0` : r.call}
-                  </p>
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-1">
                   {typeof r.amount === 'number' ? (
@@ -50,7 +47,7 @@ export function Records({ state }: { state: BaseState | null }) {
                 </div>
                 <div className="hidden w-24 shrink-0 flex-col items-end gap-1 sm:flex">
                   <StatusChip kind={r.kind} />
-                  <span className="text-[13px] text-muted">{r.kind === 'offchain' ? '블록체인 밖' : '모의 거래'}</span>
+                  <span className="text-[13px] text-muted">{r.kind === 'offchain' ? '오프체인' : '모의 거래'}</span>
                 </div>
               </button>
             </li>
@@ -59,7 +56,7 @@ export function Records({ state }: { state: BaseState | null }) {
       )}
       <p className="mt-4 flex flex-wrap items-center gap-x-2 text-[14px] text-sub tabular-nums">
         <span className="font-semibold text-ink-2">하나은행 대사</span>· 모의 입금 누계 {num(state?.deposited ?? 0)}원 ={' '}
-        TestKRW 발행 누계 {num(state?.minted ?? 0)}원
+        TestKRW 발행 누계 {num(state?.minted ?? 0)} TestKRW
         {matched ? (
           <span className="inline-flex items-center gap-1 font-semibold text-brand-text">
             <Check aria-hidden="true" className="size-3.5" strokeWidth={3} />
@@ -91,7 +88,7 @@ function RecordIcon({ kind }: { kind: LedgerRecord['kind'] }) {
       </span>
     )
   return (
-    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-soft" aria-label="블록체인 밖">
+    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-soft" aria-label="오프체인">
       <span className="size-2 rounded-full bg-disabled" />
     </span>
   )

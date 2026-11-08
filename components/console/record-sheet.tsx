@@ -64,27 +64,22 @@ export function RecordSheet({ record, onClose }: { record: LedgerRecord | null; 
             <dl className="mt-4 flex flex-col text-[15px]">
               <Row label="역할" value={`${record.role} (모의 역할 계정)`} />
               <Row label="시각" value={record.time} />
-              <Row label="계약 호출" value={record.call} mono />
               <Row
                 label="결과"
                 value={
                   record.kind === 'reject'
                     ? `거부 · ${record.result}`
                     : record.kind === 'offchain'
-                      ? `블록체인 밖 · ${record.result}`
+                      ? `오프체인 · ${record.result}`
                       : `완료 · ${record.result}`
                 }
               />
-              {record.kind === 'reject' && (
-                <Row label="오류" value={`${record.code} · status 0 · 이벤트 없음`} mono />
-              )}
               {typeof record.amount === 'number' && (
                 <Row
                   label="금액"
-                  value={`${num(record.amount)}원 · TestKRW(실제 예금 아님)${record.kind === 'reject' ? ' · 이전되지 않음' : ''}`}
+                  value={record.kind === 'offchain' ? `${num(record.amount)}원` : `${num(record.amount)} TestKRW (실제 예금 아님)${record.kind === 'reject' ? ' · 이전되지 않음' : ''}`}
                 />
               )}
-              {record.kind !== 'offchain' && <Row label="거래 해시" value={`${record.hash} · 모의`} mono />}
             </dl>
             {record.kind === 'reject' && (
               <p className="mt-3 text-[13px] text-muted">
