@@ -49,7 +49,7 @@ export function DemoSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="demo" aria-label="시연" className="px-5 pt-0 pb-28 sm:pb-32">
+    <section ref={sectionRef} id="demo" aria-label="시연" className="px-5 pt-6 pb-28 sm:pb-32">
       <div className="mx-auto max-w-[1180px]">
         <div className="mb-5 flex flex-wrap justify-center gap-2" role="tablist" aria-label="시연 선택">
           {DEMOS.map((d, i) => {
