@@ -29,7 +29,6 @@ export const PREPAID = {
   month: 23_280,
 }
 
-const DETAIL = '지급 조건은 결제한 예약 기간의 종료이며 실제 입출차 여부는 보지 않습니다.'
 
 type S = Scene<DemoBState, DemoBVisual>
 
@@ -93,7 +92,6 @@ const scenes: S[] = [
     ],
     doneTitle: '보냈어요',
     sheetBalance: '잠긴 잔액 46,560원',
-    sheetNote: DETAIL,
     results: [{ tone: 'ok', text: '10월분 23,280원 → 청소 업체', chip: '청소비 지급' }],
     apply: (s) => ({
       ...s,
@@ -161,5 +159,4 @@ export const demoB: Demo<DemoBState, DemoBVisual> = {
   title: '시연 B · 3개월치를 미리 내도, 건물엔 끝난 달 몫만 지급돼요',
   scenes: () => scenes,
   initialState,
-  detailNote: DETAIL,
 }

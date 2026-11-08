@@ -147,7 +147,6 @@ const scenes: S[] = [
     ],
     doneTitle: '보류됐어요',
     results: [{ tone: 'reject', text: '보류 · 최소 공유 요건(5면) 미달 · 60,000원 지급 없음', code: 'BelowMinimumOpen' }],
-    sheetBalance: '예산 불변',
     apply: (s) => s,
   },
   {
@@ -175,7 +174,7 @@ const scenes: S[] = [
       {
         title: '아파트 10월 이용 통계',
         call: 'IncentiveDistributor.submitUsageStats(APT-1, 2026-10, open 10, sold 6)',
-        result: '이용률 60% · 기준(80%) 미달 → 지급 0원, 예산 불변',
+        result: '이용률 60% · 기준(80%) 미달 → 지급 0원',
         kind: 'reject',
         code: 'NotEligible',
       },
