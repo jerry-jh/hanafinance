@@ -1,0 +1,87 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@theme inline {
+  --font-sans: 'Pretendard Variable', Pretendard, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #191f28;
+  --color-ink-2: #333d4b;
+  --color-sub: #4e5968;
+  --color-muted: #6b7684;
+  --color-muted-2: #8b95a1;
+  --color-disabled: #b0b8c1;
+  --color-bracket: #c9ced4;
+  --color-line: #e5e8eb;
+  --color-line-soft: #f2f4f6;
+  --color-soft: #f2f4f6;
+  --color-soft-2: #f9fafb;
+
+  --color-brand: #12a150;
+  --color-brand-text: #0b7a3b;
+  --color-brand-soft: #eaf7ef;
+  --color-danger: #d92d20;
+  --color-danger-text: #b42318;
+  --color-danger-soft: #fdedec;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-lg: var(--radius);
+}
+
+:root {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #191f28;
+  --primary: #12a150;
+  --primary-foreground: #ffffff;
+  --secondary: #f2f4f6;
+  --secondary-foreground: #4e5968;
+  --accent: #f2f4f6;
+  --accent-foreground: #191f28;
+  --destructive: #d92d20;
+  --border: #e5e8eb;
+  --input: #e5e8eb;
+  --ring: #8b95a1;
+  --radius: 1rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 60px;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    word-break: keep-all;
+  }
+}
+
+@keyframes progress-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
