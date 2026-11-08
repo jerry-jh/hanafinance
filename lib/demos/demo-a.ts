@@ -180,19 +180,19 @@ const villaScenes: S[] = [
     short: '건물 공용 지갑에 전송',
     headline: '정산 ID와 건물 몫을 빌라 금고 계약에 기록합니다.',
     actionLabel: '금고 기록',
-    visual: { type: 'vault', label: '빌라 공용 금고' },
+    visual: { type: 'vault', label: '건물 공용 지갑' },
     logs: [
       {
         title: '빌라 금고 입금',
         call: 'SettlementVault.settleMonth(STL-2610-V01, VILLA-1, 2026-10, 160,000, 155,200)',
-        result: '빌라 공용 금고 +93,120 · 미유올 몫 62,080은 기존 정산에서 지급',
+        result: '건물 공용 지갑 +93,120 · 미유올 몫 62,080은 기존 정산에서 지급',
         kind: 'success',
         amount: VILLA.share,
       },
     ],
     doneTitle: '기록됐어요',
     sheetBalance: '금고 잔액 93,120원',
-    results: [{ tone: 'ok', text: '빌라 공용 금고 +93,120원' }],
+    results: [{ tone: 'ok', text: '건물 공용 지갑 +93,120원' }],
     apply: (s) => ({ ...s, vault: s.vault + VILLA.share }),
   },
   {
@@ -208,7 +208,7 @@ const villaScenes: S[] = [
     rejectVariant: 'a-v-9',
     visual: {
       type: 'payout',
-      label: '빌라 공용 금고',
+      label: '건물 공용 지갑',
       payee: '청소 업체',
       basis: '근거 · 주민 투표 제1호',
       chip: '청소비 지급',
