@@ -179,7 +179,7 @@ const villaScenes: S[] = [
     time: '2026.11.05 09:00',
     short: '건물 공용 지갑에 전송',
     headline: '정산 ID와 건물 몫을 빌라 금고 계약에 기록합니다.',
-    actionLabel: '금고 기록',
+    actionLabel: '지갑에 전송',
     visual: { type: 'vault', label: '건물 공용 지갑' },
     logs: [
       {

@@ -41,6 +41,8 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
   const done = phase === 'done'
   // 미유올은 외부 정산 데이터를 끌어오는 역할이라 배지 색과 아이콘을 따로 줘요
   const isMiyuol = scene.role.includes('미유올')
+  // 구청 배지도 미유올과 같은 연한 하늘색 바탕 (아이콘은 미유올만)
+  const isSky = isMiyuol || scene.role.startsWith('구청')
   // 하나은행 배지는 아래 초록 버튼과 같은 색
   const isHana = scene.role.startsWith('하나은행')
   const revealed = done && (!revealDelay || revealedKey === revealKey)
@@ -142,9 +144,9 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
           )}
           <span
             className={`inline-flex min-w-0 items-center gap-1.5 rounded-full px-4 py-1.5 text-white ${
-              scene.role === '조건 미충족 시' ? 'bg-danger' : isMiyuol ? '' : isHana ? 'bg-brand' : 'bg-ink'
+              scene.role === '조건 미충족 시' ? 'bg-danger' : isSky ? '' : isHana ? 'bg-brand' : 'bg-ink'
             }`}
-            style={isMiyuol ? { background: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', color: '#0369a1' } : undefined}
+            style={isSky ? { background: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', color: '#0369a1' } : undefined}
           >
             {isMiyuol && <Import aria-hidden="true" className="size-4 shrink-0" strokeWidth={2.5} />}
             <span className="truncate text-[15px] font-bold">{scene.role}</span>
