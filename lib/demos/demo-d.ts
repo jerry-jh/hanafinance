@@ -68,7 +68,7 @@ export const REGISTRY = [
   { holder: '주민 C', amount: 3_000_000 },
 ]
 
-export const TRANSFER_ATTEMPT = { from: '주민 A', to: '허용 목록 밖 지갑', amount: 500_000 }
+export const TRANSFER_ATTEMPT = { from: '주민 A', to: '허용 목록 외 지갑', amount: 500_000 }
 
 export const DVP = { who: '주민 A', amount: 1_000_000 }
 
@@ -82,7 +82,7 @@ const scenes: S[] = [
     kind: 'success',
     role: '하나은행',
     time: '6년차 정산',
-    short: '발전 수입이 들어오면, 정해진 순서대로 지급',
+    short: '발전 수입이 들어오면, 정해진 순서(조건)대로 지급',
     headline: '운영비 → 정책융자 → 준비금 적립 → 주민 사채 → 잔액(출자 배당) 순서로 나뉩니다.',
     actionLabel: '지급 순서 실행',
     durationMs: 3600,
@@ -107,7 +107,7 @@ const scenes: S[] = [
     kind: 'unlock',
     role: '하나은행',
     time: '6년차 정산 (악화 가정)',
-    short: '수입 악화 시, 준비금 인출 · 주민 원리금 이연',
+    short: '수입 악화 시, 정해진 순서대로 준비금 인출 · 주민 원리금 이연',
     headline: '정책융자 부족분은 준비금에서 인출하고, 주민 원리금은 다음 회차로 이연합니다.',
     actionLabel: '악화 회차 실행',
     durationMs: 3800,
@@ -135,47 +135,23 @@ const scenes: S[] = [
     role: '조건 미충족 시',
     time: '권리 양도',
     heading: '자격 없는 지갑으로의 [권리 양도 차단]',
-    short: '허용 목록 밖 지갑으로는 권리 양도 불가',
+    short: '허용 목록 외 지갑으로는 권리 양도 불가',
     headline: '허용 목록에 없는 지갑으로 권리토큰을 직접 보내면 실패하고, 기준일 명부는 그대로입니다.',
     actionLabel: '권리토큰 전송 시도',
     visual: { type: 'transferReject' },
     logs: [
       {
         title: '권리토큰 직접 전송 실패',
-        call: 'MockRightsToken.transfer(허용 목록 밖 지갑, 500,000) · 고정 가스 한도',
-        result: '허용 목록 밖 지갑 — 전송 실패 · 기준일 명부 유지 · 탐색기 실패 기록',
+        call: 'MockRightsToken.transfer(허용 목록 외 지갑, 500,000) · 고정 가스 한도',
+        result: '허용 목록 외 지갑 — 전송 실패 · 기준일 명부 유지 · 탐색기 실패 기록',
         kind: 'reject',
         code: 'NotEligible',
         amount: TRANSFER_ATTEMPT.amount,
       },
     ],
     doneTitle: '보낼 수 없어요',
-    results: [{ tone: 'reject', text: '실패 · 허용 목록 밖 지갑 · 기준일 명부 그대로' }],
+    results: [{ tone: 'reject', text: '실패 · 허용 목록 외 지갑 · 기준일 명부 그대로' }],
     apply: (s) => ({ ...s, transferRejected: true }),
-  },
-  {
-    id: 'd-4',
-    noSheet: true,
-    chapter: '동시 교환',
-    kind: 'success',
-    role: '주민 · 하나은행',
-    time: '청약',
-    short: '예금토큰 결제 수단 확인(모의)',
-    headline: '예금토큰이 토큰증권 결제에 사용될 수 있는지 한 번 확인합니다.',
-    actionLabel: '교환 실행',
-    visual: { type: 'dvp' },
-    logs: [
-      {
-        title: '예금토큰 결제 수단 확인 (모의)',
-        call: 'SubscriptionDvP.subscribe(SOLAR-1, SUB-A, 1,000,000)',
-        result: 'TestKRW 1,000,000 ⇄ 권리토큰 1,000,000',
-        kind: 'success',
-        amount: DVP.amount,
-      },
-    ],
-    doneTitle: '교환됐어요',
-    results: [{ tone: 'ok', text: '1,000,000 TestKRW ⇄ 권리토큰 1,000,000' }],
-    apply: (s) => ({ ...s, dvpDone: true }),
   },
 ]
 
