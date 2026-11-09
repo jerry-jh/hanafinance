@@ -123,7 +123,7 @@ const villaScenes: S[] = [
     headline: 'PG 수수료와 60:40 계산은 오프체인 기존 정산시스템이 마칩니다.',
     actionLabel: '정산 확정',
     flash: true,
-    stamp: '정산 확정',
+    stamp: '정산 완료',
     visual: {
       type: 'calc',
       steps: [
@@ -154,6 +154,7 @@ const villaScenes: S[] = [
     kind: 'success',
     role: '은행',
     time: '2026.11.05 09:00',
+    kicker: '관리단 계좌로 입금된 수익금은',
     short: '모의 예금토큰으로 전환',
     headline: '건물 몫이 공용 계좌에 들어오자 은행이 모의 예금토큰으로 전환합니다.',
     actionLabel: '전환 실행',
@@ -211,7 +212,7 @@ const villaScenes: S[] = [
     role: '자동 · 지급 조건',
     time: '2026.11.05 09:00',
     kicker: '청소비 입금일에',
-    short: '투표 결과대로 청소비 지급',
+    short: '앞선 투표 결과대로 청소비 자동 지급',
     headline: '투표로 정한 조건대로 청소 업체에 80,000원이 지급됩니다.',
     actionLabel: '80,000원 보내기',
     rejectVariant: 'a-v-9',
