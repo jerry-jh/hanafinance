@@ -73,6 +73,8 @@ export interface Scene<S extends BaseState = any, V = unknown> {
   stamp?: string
   // 이 단계부터 시나리오 큰 제목을 이 문구로 바꿔요 (뒤 단계에도 이어짐)
   heading?: string
+  // 카드 제목 윗줄에 연한 회색으로 붙는 앞말 (예: 청소비 입금일에)
+  kicker?: string
   visual: V
 }
 

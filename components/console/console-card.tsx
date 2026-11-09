@@ -164,8 +164,9 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
               className="flex flex-col gap-5 pt-3"
             >
               <h3
-                className={`${scene.short.includes('\n') ? 'whitespace-pre-line' : 'truncate'} text-[26px] leading-tight font-extrabold tracking-tight text-ink sm:text-[30px]`}
+                className={`${scene.short.includes('\n') || scene.kicker ? 'whitespace-pre-line' : 'truncate'} text-[26px] leading-tight font-extrabold tracking-tight text-ink sm:text-[30px]`}
               >
+                {scene.kicker && <span className="block text-muted-2">{scene.kicker}</span>}
                 {scene.short}
               </h3>
               <SceneVisual demo={demo} scene={scene} prev={player.prevState} next={player.nextState} phase={phase} />
