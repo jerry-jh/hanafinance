@@ -19,7 +19,7 @@ export interface CalcStep {
 }
 
 export type DemoAVisual =
-  | { type: 'vote'; threshold: number; attempts?: boolean }
+  | { type: 'vote'; threshold: number; attempts?: boolean; agenda?: { items: { label: string; ask: string; decided: string }[] } }
   | { type: 'calc'; steps: CalcStep[]; split: { label: string; value: number }[] }
   | { type: 'bank'; label: string }
   | { type: 'vault'; label: string }
@@ -79,7 +79,16 @@ const villaScenes: S[] = [
     durationMs: 4200,
     revealDelayMs: 2900,
     flash: true,
-    visual: { type: 'vote', threshold: VILLA.quorum },
+    visual: {
+      type: 'vote',
+      threshold: VILLA.quorum,
+      agenda: {
+        items: [
+          { label: '안건1', ask: '공유 면수, 공유 시간, 금액', decided: '4면 공유, 9~18시, 월 4만 원' },
+          { label: '안건2', ask: '수익금 사용처', decided: '수익금은 청소비로 지급' },
+        ],
+      },
+    },
     checks: [
       { label: '승인 주민 목록 확인', ok: true, code: 'BuildingGovernance' },
       { label: '투표 기간 안 (09.15–09.21)', ok: true },
@@ -101,7 +110,6 @@ const villaScenes: S[] = [
     doneTitle: '가결됐어요',
     results: [
       { tone: 'ok', text: '찬성 6/8명 · 과반 이상이므로 가결' },
-      { tone: 'ok', text: '안건: 4면 공유,월~금요일, 9~18시, 월 정액권, 월 4만 원, 수익금은 청소비로 지급' },
     ],
     apply: (s) => ({ ...s, votes: { ...VOTE_PLAN }, passed: true }),
   },

@@ -28,6 +28,7 @@ export function DemoAVisualView({ visual, prev, next, phase }: Props) {
           animate={done}
           threshold={visual.threshold}
           attempts={visual.attempts ? (done ? 'rejected' : 'pending') : undefined}
+          agenda={visual.agenda?.items}
         />
       )
     case 'calc':
@@ -55,12 +56,14 @@ function VoteVisual({
   animate,
   threshold,
   attempts,
+  agenda,
 }: {
   votes: Record<string, Vote>
   prevVotes: Record<string, Vote>
   animate: boolean
   threshold: number
   attempts?: AttemptState
+  agenda?: { label: string; ask: string; decided: string }[]
 }) {
   const reduced = useReducedMotion()
   const isFreshVote = animate && VOTE_ORDER.every((u) => prevVotes[u] === null) && VOTE_ORDER.some((u) => votes[u] !== null)
@@ -156,6 +159,7 @@ function VoteVisual({
         </div>
       </div>
       {attempts && <AttemptCards state={attempts} />}
+      {agenda && <AgendaBoxes items={agenda} decided={votingDone} />}
     </div>
   )
 }
@@ -413,6 +417,34 @@ function AttemptCards({ state }: { state: AttemptState }) {
           ) : (
             <span className="text-[14px] text-muted">{it.sub}</span>
           )}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+// 투표 전: 무엇을 정하는지(회색) → 투표 후: 정해진 내용(초록)
+function AgendaBoxes({ items, decided }: { items: { label: string; ask: string; decided: string }[]; decided: boolean }) {
+  return (
+    <ul className="flex flex-col gap-2" aria-label="안건">
+      {items.map((it, i) => (
+        <li
+          key={it.label}
+          className={`flex items-center gap-2 rounded-2xl px-4 py-3 text-[15px] transition-colors duration-300 ${
+            decided ? 'bg-brand-soft text-brand-text' : 'bg-soft text-ink-2'
+          }`}
+        >
+          {decided && <Check aria-hidden="true" className="size-4 shrink-0" strokeWidth={3} />}
+          <span className="font-bold">{it.label}:</span>
+          <motion.span
+            key={decided ? 'decided' : 'ask'}
+            initial={decided ? { opacity: 0, y: 4 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: decided ? i * 0.15 : 0 }}
+            className={decided ? 'font-semibold' : ''}
+          >
+            {decided ? it.decided : it.ask}
+          </motion.span>
         </li>
       ))}
     </ul>
