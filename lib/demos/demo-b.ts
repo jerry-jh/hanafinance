@@ -107,7 +107,7 @@ const scenes: S[] = [
     kind: 'unlock',
     role: '미유올',
     time: '2026.11.25 15:00',
-    short: '12월 예약분을 중간에 해지하면',
+    short: '11월 중 해지하면, 12월 예약분은 환불',
     headline: '이용자가 해지하자 아직 시작되지 않은 12월 몫의 잠금이 풀립니다.',
     actionLabel: '해지 처리',
     visual: {
