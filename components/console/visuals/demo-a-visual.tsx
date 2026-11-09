@@ -259,7 +259,7 @@ function PayoutVisual({
         <span className="text-[13px] text-muted">{visual.label}</span>
         <span className="mt-1 text-4xl font-extrabold tracking-tight text-ink">
           <CountUp value={vault} />
-          <span className="ml-1 text-lg font-semibold text-muted">원</span>
+          <span className="ml-1 text-lg font-semibold text-muted">TestKRW</span>
         </span>
       </div>
       <ArrowRight aria-hidden="true" className="size-5 shrink-0 self-center text-disabled max-sm:rotate-90" />

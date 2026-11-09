@@ -192,7 +192,7 @@ const villaScenes: S[] = [
     ],
     doneTitle: '기록됐어요',
     sheetBalance: '금고 잔액 93,120원',
-    results: [{ tone: 'ok', text: '건물 공용 지갑 +93,120원' }],
+    results: [{ tone: 'ok', text: '건물 공용 지갑 +93,120 TestKRW' }],
     apply: (s) => ({ ...s, vault: s.vault + VILLA.share }),
   },
   {

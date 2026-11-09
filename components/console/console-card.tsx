@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Check, ChevronDown, Import, MousePointer2, Pause, Play } from 'lucide-react'
+import { Check, ChevronDown, MousePointer2, Pause, Play, SquareParking } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { DemoPlayer } from '@/hooks/useDemoPlayer'
 import type { Demo } from '@/lib/demos/types'
@@ -148,7 +148,7 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
             }`}
             style={isSky ? { background: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', color: '#0369a1' } : undefined}
           >
-            {isMiyuol && <Import aria-hidden="true" className="size-4 shrink-0" strokeWidth={2.5} />}
+            {isMiyuol && <SquareParking aria-hidden="true" className="size-4 shrink-0" strokeWidth={2.5} />}
             <span className="truncate text-[15px] font-bold">{scene.role}</span>
           </span>
         </div>
