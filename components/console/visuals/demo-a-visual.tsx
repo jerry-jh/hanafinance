@@ -184,7 +184,7 @@ function CalcStrip({ visual }: { visual: Extract<DemoAVisual, { type: 'calc' }> 
           </div>
         ))}
       </div>
-      <p className="mt-4 text-[13px] font-semibold text-muted">정산금을 60 : 40으로 나눠요</p>
+      <p className="mt-5 text-[18px] font-bold text-ink-2">정산금을 60 : 40으로 자동 지급</p>
       <div className="mt-2 flex gap-1.5" aria-label="정산금 60 대 40 분배">
         {visual.split.map((s, i) => {
           const m = s.label.match(/^(.*?)\s*(\d+%)$/)
