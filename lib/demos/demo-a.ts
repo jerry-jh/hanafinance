@@ -211,7 +211,7 @@ const villaScenes: S[] = [
     kind: 'success',
     role: '자동 · 지급 조건',
     time: '2026.11.05 09:00',
-    kicker: '청소비 입금일에',
+    kicker: '빌라 청소비 입금일에',
     short: '앞선 투표 결과대로 청소비 자동 지급',
     headline: '투표로 정한 조건대로 청소 업체에 80,000원이 지급됩니다.',
     actionLabel: '80,000원 보내기',
