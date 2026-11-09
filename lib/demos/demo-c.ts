@@ -75,6 +75,7 @@ const scenes: S[] = [
     kind: 'success',
     role: '미유올',
     time: '2026.11.04',
+    kicker: '월별 운영 보전금 지급을 위해서는',
     short: '10월 공유 주차장 운영 데이터 확인',
     headline: '10월 한 달 동안 매일 5면이 판매 가능했는지 연결합니다.',
     actionLabel: '공유 데이터 연결',
