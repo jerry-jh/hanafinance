@@ -75,7 +75,7 @@ function Waterfall({ dataKey, run }: { dataKey: WaterfallKey; run: boolean }) {
               </span>
               <span className="flex min-w-0 flex-col">
                 <span className="text-[14px] font-semibold text-ink">{r.label}</span>
-                <span className="truncate text-[12px] text-muted">{r.sub}</span>
+                <span className="text-[12px] leading-snug text-muted">{r.sub}</span>
               </span>
               <span
                 className={`relative col-span-3 col-start-1 row-start-2 flex h-3 rounded-full bg-soft sm:col-span-1 sm:col-start-3 sm:row-start-1 ${
@@ -83,11 +83,21 @@ function Waterfall({ dataKey, run }: { dataKey: WaterfallKey; run: boolean }) {
                 }`}
               >
                 <motion.span
-                  className={`h-full rounded-full ${BAR_TONE[r.tone]}`}
+                  className={`flex h-full overflow-hidden rounded-full ${r.fromReserve ? '' : BAR_TONE[r.tone]}`}
                   initial={{ width: '0%' }}
                   animate={{ width: run ? `${Math.max(pct, r.value > 0 ? 1.5 : 0)}%` : '0%' }}
                   transition={reduced ? { duration: 0 } : { duration: 0.45, delay: run ? i * 0.3 : 0, ease: 'easeOut' }}
-                />
+                >
+                  {r.fromReserve ? (
+                    <>
+                      {/* 수입으로 낸 부분 + 준비금에서 메운 부분(빨간 빗금) */}
+                      <span className={`h-full ${BAR_TONE[r.tone]}`} style={{ width: `${((r.value - r.fromReserve) / r.value) * 100}%` }} />
+                      <span
+                        className="h-full flex-1 bg-[repeating-linear-gradient(135deg,var(--color-danger)_0_4px,transparent_4px_8px)]"
+                      />
+                    </>
+                  ) : null}
+                </motion.span>
               </span>
               <span className="col-start-3 row-start-1 flex flex-col items-end sm:col-start-4">
                 <span
@@ -98,7 +108,9 @@ function Waterfall({ dataKey, run }: { dataKey: WaterfallKey; run: boolean }) {
                   {run ? `${withdraw ? '−' : ''}${num(r.value)}` : '—'}
                 </span>
                 {run && r.tag && (
-                  <span className={`text-[12px] font-semibold ${defer ? 'text-danger-text' : 'text-ink-2'}`}>
+                  <span
+                    className={`text-[12px] font-semibold ${defer || r.fromReserve ? 'text-danger-text' : 'text-ink-2'}`}
+                  >
                     {r.tag}
                     {defer && ` ${num(RESIDENT_DUE)}`}
                   </span>

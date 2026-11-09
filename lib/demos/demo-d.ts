@@ -25,6 +25,8 @@ export interface WaterfallRow {
   value: number
   tone: 'ink' | 'ink-2' | 'sub' | 'muted' | 'brand' | 'withdraw' | 'defer'
   tag?: string
+  // 이 금액 중 준비금에서 꺼내 메운 부분 (막대에 빨간 빗금으로 표시)
+  fromReserve?: number
 }
 
 export const RESERVE_START = 583_245_134
@@ -53,8 +55,15 @@ export const WATERFALL: Record<
     reserve: [RESERVE_START, RESERVE_AFTER_STRESS],
     rows: [
       { label: '운영비', sub: '운영비 지갑', value: 171_562_500, tone: 'ink' },
-      { label: '정책융자', sub: '정책자금 상환 지갑', value: 960_750_000, tone: 'ink-2' },
-      { label: '준비금 인출', sub: '정책융자 부족분을 준비금에서 충당', value: 172_112_139, tone: 'withdraw', tag: '인출' },
+      {
+        label: '정책융자',
+        sub: '수입 788,637,861 + 준비금 172,112,139',
+        value: 960_750_000,
+        tone: 'ink-2',
+        fromReserve: 172_112_139,
+        tag: '준비금 172,112,139 포함',
+      },
+      { label: '준비금 적립', sub: '준비금 지갑', value: 0, tone: 'sub', tag: '인출 회차라 적립 없음' },
       { label: '주민 사채', sub: '권리 기준일 보유자 지갑', value: 0, tone: 'defer', tag: '다음 회차로 이연' },
       { label: '잔액 (출자 배당)', sub: '출자자 배당 지갑', value: 0, tone: 'muted' },
     ],
