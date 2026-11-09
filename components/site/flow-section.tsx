@@ -54,7 +54,7 @@ export function FlowSection() {
             >
               <li className={lit(0)}><Pill>재원 발생</Pill></li>
               <li aria-hidden="true" className={lit(1)}><Arrow /></li>
-              <li className={lit(1)}><Pill>예금토큰 전환</Pill></li>
+              <li className={lit(1)}><Pill>모의 예금토큰 전환</Pill></li>
               <li aria-hidden="true" className={lit(2)}><Arrow /></li>
               <li className={lit(2)}><Pill>조건 확인</Pill></li>
               <li aria-hidden="true" className={lit(4)}><Arrow /></li>

@@ -40,12 +40,12 @@ const scenes: S[] = [
     role: '은행 · 미유올',
     time: '2026.10.05 09:00',
     short: '이용자가 3개월치 선결제 한 경우\n건물의 정산금을 월별로 구분하여 보관',
-    headline: '3개월분 건물 몫을 잠긴 예금토큰으로 전환하고 달별 세 칸으로 나눕니다.',
+    headline: '3개월분 건물 몫을 잠긴 모의 예금토큰으로 전환하고 달별 세 칸으로 나눕니다.',
     actionLabel: '잠금 실행',
     visual: { type: 'slots' },
     logs: [
       {
-        title: '예금토큰 전환',
+        title: '모의 예금토큰 전환',
         call: 'BankDesk.convert(PP-1027)',
         result: 'TestKRW 69,840 발행',
         kind: 'success',

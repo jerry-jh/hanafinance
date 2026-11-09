@@ -30,7 +30,7 @@ export function WhySection() {
         >
           <div className="mx-auto w-full max-w-[760px]">
             <div className="flex flex-col items-center text-center">
-              <p className="text-[16px] font-bold text-[#4fd18b]">Why 예금토큰?</p>
+              <p className="text-[16px] font-bold text-[#4fd18b]">Why 모의 예금토큰?</p>
               <h2 className="mt-3 text-[36px] leading-tight font-extrabold tracking-[-0.03em] sm:text-[52px]">
                 돈에 규칙이 붙어 있어요
               </h2>

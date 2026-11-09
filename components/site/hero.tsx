@@ -22,7 +22,7 @@ export function Hero() {
         className="mx-auto flex max-w-[1180px] flex-col items-center text-center"
       >
         <h1 className="text-[52px] leading-[1.05] font-extrabold tracking-[-0.035em] text-ink sm:text-[80px] lg:text-[100px]">
-          예금토큰
+          모의 예금토큰
           <br />
           조건부 지급 시연
         </h1>

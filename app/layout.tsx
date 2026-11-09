@@ -10,7 +10,7 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: '예금토큰 조건부 지급 시연 · 미추홀 예금토큰',
+  title: '모의 예금토큰 조건부 지급 시연 · 미추홀 모의 예금토큰',
   description:
     '인하대학교 × 하나금융TI 산학 프로젝트. GIWA Sepolia 테스트넷의 모의 예금토큰(TestKRW)이 조건이 맞을 때만 지급되는 과정을 시연합니다.',
   generator: 'v0.app',
