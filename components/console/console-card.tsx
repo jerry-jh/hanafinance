@@ -43,8 +43,8 @@ export function ConsoleCard({ demo, caseId, onCaseChange, player }: Props) {
   const isMiyuol = scene.role.includes('미유올')
   // 구청 배지도 미유올과 같은 연한 하늘색 바탕 (아이콘은 미유올만)
   const isSky = isMiyuol || scene.role.startsWith('구청')
-  // 하나은행 배지는 아래 초록 버튼과 같은 색
-  const isHana = scene.role.startsWith('하나은행')
+  // 은행 배지는 아래 초록 버튼과 같은 색
+  const isHana = scene.role.startsWith('은행')
   const revealed = done && (!revealDelay || revealedKey === revealKey)
   const progress = (index + (done ? 1 : 0)) / scenes.length
   const primaryLabel = done ? '다음 단계' : scene.actionLabel

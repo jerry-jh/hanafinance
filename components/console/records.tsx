@@ -55,7 +55,7 @@ export function Records({ state }: { state: BaseState | null }) {
         </ul>
       )}
       <p className="mt-4 flex flex-wrap items-center gap-x-2 text-[14px] text-sub tabular-nums">
-        <span className="font-semibold text-ink-2">하나은행 대사</span>· 모의 입금 누계 {num(state?.deposited ?? 0)}원 ={' '}
+        <span className="font-semibold text-ink-2">은행 대사</span>· 모의 입금 누계 {num(state?.deposited ?? 0)}원 ={' '}
         TestKRW 발행 누계 {num(state?.minted ?? 0)} TestKRW
         {matched ? (
           <span className="inline-flex items-center gap-1 font-semibold text-brand-text">

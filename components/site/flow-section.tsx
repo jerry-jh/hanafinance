@@ -18,7 +18,7 @@ function Pill({ children, className = 'text-ink' }: { children: ReactNode; class
 const Arrow = () => <ArrowRight aria-hidden="true" className="size-4 shrink-0 text-disabled" />
 
 const BOXES = [
-  { title: '역할 화면', body: '주민 · 건물 대표 · 미유올 · 하나은행 · 구청 · 업체', mono: false },
+  { title: '역할 화면', body: '주민 · 건물 대표 · 미유올 · 은행 · 구청 · 업체', mono: false },
   {
     title: 'GIWA Sepolia 스마트계약',
     body: 'BuildingGovernance · SettlementVault · IncentiveDistributor · BankDesk',
@@ -98,7 +98,7 @@ export function FlowSection() {
             ))}
           </div>
           <p className="mt-6 text-center text-[17px] font-bold text-ink">
-            주민 가결 + 미유올 정산 확정 + 하나은행 전환 = 지급
+            주민 가결 + 미유올 정산 확정 + 은행 전환 = 지급
           </p>
           <p className="mx-auto mt-3 max-w-[640px] text-center text-[14px] leading-relaxed text-muted">
             예약·결제·PG 수수료·60:40 계산은 오프체인 기존 정산시스템이 처리하고, 확정된 건물 몫과 정산 ID만

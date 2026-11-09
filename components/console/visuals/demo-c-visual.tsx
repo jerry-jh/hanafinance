@@ -242,7 +242,7 @@ function ApprovalChain({ o, g, b }: { o: boolean; g: boolean; b: boolean }) {
   const nodes = [
     { key: 'O', who: '미유올', what: '데이터 연결', done: o },
     { key: 'G', who: '구청', what: '승인', done: g },
-    { key: 'B', who: '하나은행', what: '실행', done: b },
+    { key: 'B', who: '은행', what: '실행', done: b },
   ]
   return (
     <ol className="flex items-center" aria-label="승인 순서">
