@@ -98,7 +98,7 @@ const scenes: S[] = [
     kind: 'success',
     role: '구청 → 은행',
     time: '2026.11.05 10:00',
-    short: '조건 충족 확인에 따라, 운영 보전금 10만원 입금',
+    short: '조건 충족 시, 운영 보전금 10만원 입금',
     headline: '공유 유지가 확인돼 운영보전금 100,000원이 지급됩니다.',
     actionLabel: '지급일 실행',
     visual: { type: 'subsidy' },
