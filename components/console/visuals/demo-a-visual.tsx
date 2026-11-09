@@ -211,7 +211,7 @@ function CalcStrip({ visual }: { visual: Extract<DemoAVisual, { type: 'calc' }> 
 function BankVisual({ label, deposited, minted }: { label: string; deposited: number; minted: number }) {
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-[14px] text-muted">{label}</span>
+      {label && <span className="text-[14px] text-muted">{label}</span>}
       <div className="flex items-center gap-3">
         <div className="flex flex-1 flex-col rounded-2xl bg-soft px-4 py-3">
           <span className="text-[14px] text-muted">모의 입금</span>
@@ -236,7 +236,7 @@ function BankVisual({ label, deposited, minted }: { label: string; deposited: nu
 function VaultNumber({ label, value, unchanged }: { label: string; value: number; unchanged?: boolean }) {
   return (
     <div className="flex flex-col items-center py-2 text-center">
-      <span className="text-[14px] text-muted">{label}</span>
+      {label && <span className="text-[14px] text-muted">{label}</span>}
       <span className="mt-1 text-[56px] leading-none font-extrabold tracking-tight text-ink">
         <CountUp value={value} />
         <span className="ml-1 text-2xl font-semibold text-muted">TestKRW</span>

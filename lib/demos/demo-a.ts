@@ -154,10 +154,10 @@ const villaScenes: S[] = [
     kind: 'success',
     role: '은행',
     time: '2026.11.05 09:00',
-    short: '은행이 모의 예금토큰으로 전환',
+    short: '모의 예금토큰으로 전환',
     headline: '건물 몫이 공용 계좌에 들어오자 은행이 모의 예금토큰으로 전환합니다.',
     actionLabel: '전환 실행',
-    visual: { type: 'bank', label: '은행 전환' },
+    visual: { type: 'bank', label: '' },
     logs: [
       {
         title: '모의 입금 기록',
@@ -307,10 +307,10 @@ const aptScenes: S[] = [
     kind: 'success',
     role: '은행',
     time: '2026.11.05 09:00',
-    short: '은행이 모의 예금토큰으로 전환',
+    short: '모의 예금토큰으로 전환',
     headline: '관리단 몫이 들어오자 은행이 모의 예금토큰으로 전환합니다.',
     actionLabel: '전환 실행',
-    visual: { type: 'bank', label: '은행 전환' },
+    visual: { type: 'bank', label: '' },
     logs: [
       {
         title: '모의 입금 기록',
