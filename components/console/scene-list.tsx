@@ -11,8 +11,11 @@ export function SceneList({ player }: { player: DemoPlayer }) {
         const active = i === index
         const past = i < index || (active && phase === 'done')
         const reject = s.kind === 'reject'
+        // 큰 제목이 바뀌는 단계(시나리오 갈래)는 위에 구분선과 갈래 제목을 보여줌
+        const branch = i > 0 && s.heading ? s.heading.replace(/[[\]]/g, '') : null
         return (
-          <li key={s.id} className="border-b border-line-soft">
+          <li key={s.id} className={`border-b border-line-soft ${branch ? 'mt-6 border-t-2 border-t-ink-2 pt-2' : ''}`}>
+            {branch && <p className="pb-1 text-[12px] leading-snug font-semibold text-muted">{branch}</p>}
             <button
               type="button"
               onClick={() => player.seek(i)}
