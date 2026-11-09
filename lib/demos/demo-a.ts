@@ -85,7 +85,7 @@ const villaScenes: S[] = [
       agenda: {
         items: [
           { label: '안건1', ask: '공유 면수, 공유 시간, 금액', decided: '4면 공유, 9~18시, 월 4만 원' },
-          { label: '안건2', ask: '수익금 사용처', decided: '수익금은 청소비로 지급' },
+          { label: '안건2', ask: '공유 주차 수익금 사용처', decided: '수익금은 청소비로 지급' },
         ],
       },
     },
