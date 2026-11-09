@@ -39,7 +39,7 @@ export function DemoSection() {
     if (e.key === 'ArrowRight') player.next()
     else if (e.key === 'ArrowLeft') player.prev()
     else if (e.key === 'r' || e.key === 'R') player.reset()
-    else if (['1', '2', '3', '4'].includes(e.key)) selectDemo(DEMOS[Number(e.key) - 1].letter)
+    else if (/^[1-9]$/.test(e.key) && DEMOS[Number(e.key) - 1]) selectDemo(DEMOS[Number(e.key) - 1].letter)
   })
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export function DemoSection() {
   return (
     <section ref={sectionRef} id="demo" aria-label="시연" className="px-5 pt-6 pb-28 sm:pb-32">
       <div className="mx-auto max-w-[1180px]">
-        <div className="mx-auto mb-5 grid w-fit grid-cols-1 gap-2 sm:grid-cols-2" role="tablist" aria-label="시연 선택">
+        <div className="mb-5 flex flex-wrap justify-center gap-2 lg:flex-nowrap" role="tablist" aria-label="시연 선택">
           {DEMOS.map((d, i) => {
             const selected = d.letter === letter
             return (
@@ -61,7 +61,7 @@ export function DemoSection() {
                 role="tab"
                 aria-selected={selected}
                 onClick={() => selectDemo(d.letter)}
-                className={`w-full rounded-full px-4 py-2 text-left text-[14px] font-semibold transition-colors sm:text-[15px] ${
+                className={`shrink-0 rounded-full px-3.5 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors ${
                   selected ? 'bg-ink font-bold text-white' : 'bg-soft text-sub hover:bg-line'
                 }`}
               >
