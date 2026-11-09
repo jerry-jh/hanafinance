@@ -51,6 +51,7 @@ function Tag({ children }: { children: ReactNode }) {
 
 function Options({ chosen }: { chosen: boolean }) {
   return (
+    <div className="flex flex-col gap-2">
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div
         className={`flex flex-col gap-1 rounded-2xl border border-line px-4 py-4 transition-opacity duration-300 ${
@@ -78,6 +79,8 @@ function Options({ chosen }: { chosen: boolean }) {
           </span>
         )}
       </div>
+    </div>
+      <p className="text-[13px] text-muted">건물이 공유 주차를 한다면, 구청은 지원금을 2가지 형식으로 제공합니다.</p>
     </div>
   )
 }
